@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="A simple personal business income and expense dashboard.">
+  <title>Ledgerly | Business Dashboard</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar" aria-label="Main navigation">
+      <a class="brand" href="#overview" aria-label="Ledgerly home">
+        <span class="brand-mark" aria-hidden="true">L</span>
+        <span>Ledgerly</span>
+      </a>
+      <nav>
+        <a class="nav-link active" href="#overview"><span aria-hidden="true">▦</span> Overview</a>
+        <a class="nav-link" href="#transactions"><span aria-hidden="true">≡</span> Transactions</a>
+        <a class="nav-link" href="#reports"><span aria-hidden="true">◔</span> Reports</a>
+      </nav>
+      <div class="sidebar-note">
+        <strong>Stay on top of it</strong>
+        <p>Track every dollar and make smarter business decisions.</p>
+      </div>
+      <p class="sidebar-footer">Personal business tools</p>
+    </aside>
+
+    <main class="main-content">
+      <header class="page-header" id="overview">
+        <div>
+          <p class="eyebrow">Business overview</p>
+          <h1>Good morning, <span>business owner.</span></h1>
+          <p class="subtitle">Here is how your business is doing.</p>
+        </div>
+        <button class="primary-button header-button" id="add-transaction-button" type="button">+ Add transaction</button>
+      </header>
+
+      <section class="summary-grid" aria-label="Business summary">
+        <article class="summary-card income-card">
+          <div class="card-heading"><span>Income</span><span class="card-icon" aria-hidden="true">↗</span></div>
+          <p class="metric" id="total-income">$0.00</p>
+          <p class="metric-caption">Total money received</p>
+        </article>
+        <article class="summary-card expense-card">
+          <div class="card-heading"><span>Expenses</span><span class="card-icon" aria-hidden="true">↘</span></div>
+          <p class="metric" id="total-expenses">$0.00</p>
+          <p class="metric-caption">Total money spent</p>
+        </article>
+        <article class="summary-card profit-card">
+          <div class="card-heading"><span>Net profit</span><span class="card-icon" aria-hidden="true">$</span></div>
+          <p class="metric" id="net-profit">$0.00</p>
+          <p class="metric-caption">Income minus expenses</p>
+        </article>
+      </section>
+
+      <section class="content-grid">
+        <article class="panel chart-panel" id="reports">
+          <div class="panel-header">
+            <div><h2>Cash flow</h2><p class="panel-description">Income versus expenses</p></div>
+            <div class="legend"><span><i class="legend-dot income-dot"></i> Income</span><span><i class="legend-dot expense-dot"></i> Expenses</span></div>
+          </div>
+          <div class="chart-wrap">
+            <canvas id="cash-flow-chart" role="img" aria-label="Bar chart comparing total income and expenses"></canvas>
+            <p class="chart-empty" id="chart-empty">Add transactions to see your cash flow.</p>
+          </div>
+        </article>
+
+        <article class="panel quick-panel">
+          <div class="panel-header"><div><h2>Quick add</h2><p class="panel-description">Record a transaction</p></div></div>
+          <form id="transaction-form" novalidate>
+            <input type="hidden" id="editing-id">
+            <div class="form-field">
+              <label for="transaction-type">Type</label>
+              <select id="transaction-type" required>
+                <option value="income">Income</option>
+                <option value="expense">Expense</option>
+              </select>
+            </div>
+            <div class="form-field">
+              <label for="transaction-description">Description</label>
+              <input id="transaction-description" type="text" maxlength="80" placeholder="e.g. Website project" required>
+            </div>
+            <div class="form-row">
+              <div class="form-field">
+                <label for="transaction-amount">Amount</label>
+                <div class="amount-input"><span aria-hidden="true">$</span><input id="transaction-amount" type="number" min="0.01" max="999999999" step="0.01" placeholder="0.00" required></div>
+              </div>
+              <div class="form-field">
+                <label for="transaction-date">Date</label>
+                <input id="transaction-date" type="date" required>
+              </div>
+            </div>
+            <p class="form-error" id="form-error" role="alert" aria-live="polite"></p>
+            <div class="form-actions"><button class="primary-button" id="save-button" type="submit">Save transaction</button><button class="text-button hidden" id="cancel-edit" type="button">Cancel edit</button></div>
+          </form>
+        </article>
+      </section>
+
+      <section class="panel transactions-panel" id="transactions">
+        <div class="panel-header transactions-header"><div><h2>Recent transactions</h2><p class="panel-description">A complete record of your business activity</p></div><span class="transaction-count" id="transaction-count">0 records</span></div>
+        <div class="table-container">
+          <table>
+            <caption class="visually-hidden">Business transaction history</caption>
+            <thead><tr><th scope="col">Description</th><th scope="col">Type</th><th scope="col">Date</th><th scope="col">Amount</th><th scope="col"><span class="visually-hidden">Actions</span></th></tr></thead>
+            <tbody id="transaction-list"></tbody>
+          </table>
+          <div class="empty-state" id="empty-state"><span class="empty-icon" aria-hidden="true">✦</span><h3>No transactions yet</h3><p>Add your first income or expense to get started.</p></div>
+        </div>
+      </section>
+      <footer class="page-footer">Your data is stored privately in this browser.</footer>
+    </main>
+  </div>
+  <script src="script.js"></script>
+</body>
+</html>
